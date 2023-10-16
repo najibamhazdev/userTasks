@@ -1,0 +1,53 @@
+version: '3.7'
+services:
+
+  mysql:
+    image: mysql:8.0
+    container_name: mysql
+    platform: linux/x86_64
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql-volumes:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpass
+      MYSQL_DATABASE: userTasksdb
+
+  lumen-app:
+    build:
+      context: ./docker/php
+    container_name: lumen-app
+    volumes:
+      - ./lumen/:/home/source/main
+    working_dir: /home/source/main
+
+  nginx:
+    build:
+      context: ./docker/nginx
+    container_name: lumenapi-nginx
+    ports:
+      - "8000:80"
+    depends_on:
+      - lumen-app
+    volumes:
+      - ./lumen/:/home/source/main
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: pma
+    links:
+      - mysql
+    environment:
+      PMA_HOST: mysql
+      PMA_PORT: 3306
+      PMA_ARBITRARY: 1
+    restart: always
+    ports:
+      - 8081:80
+
+volumes:
+  mysql-volumes:
+
+networks:
+  default:
+    name: lumen-app-netword

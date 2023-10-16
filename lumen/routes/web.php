@@ -16,3 +16,12 @@
 $router->get('/', function () use ($router) {
     return $router->app->version();
 });
+
+$router->get('/categories','CategoryController@index');
+$router->post('/categories/create','CategoryController@store');
+
+
+ $router->get('/categories/{id}','CategoryController@show');
+
+$router->put('/categories/update/{id}','CategoryController@update');
+$router->delete('/categories/delete/{id}','CategoryController@destroy');

@@ -24,5 +24,6 @@ class RepositoryServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->bind(App\Repository\iCategoryRepo::class, App\Repository\CategoryRepo::class);
+        $this->app->bind(App\Repository\iTaskRepo::class, App\Repository\TaskRepo::class);
     }
 }

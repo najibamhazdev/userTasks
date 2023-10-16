@@ -80,6 +80,36 @@ class AuthController extends Controller
         }
     }
 
+
+
+    //User Update
+    public function update($id, Request $request){
+         // Update a user
+         try {
+        $user = User::findOrFail($id);
+        $npassword="";
+        if($request->password){
+            $npassword = app('hash')->make($request->password);
+        }else{
+            $npassword = $user->password;
+        }
+        $user->update([
+            'name'=>$request->name,
+            'bio'=>$request->bio,
+            'phone'=>$request->phone,
+            'password'=>app('hash')->make($request->password)
+        ]);
+
+
+        if ($user->save()) {
+            // Will call login method
+            return $this->login($request);
+        }
+    } catch (\Exception $e) {
+        return response()->json(['status' => 'error', 'message' => $e->getMessage()]);
+    }
+    }
+
     public function logout(Request $request)
     {
         try {

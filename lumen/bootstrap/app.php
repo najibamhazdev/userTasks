@@ -60,6 +60,7 @@ $app->singleton(
 */
 
 $app->configure('app');
+$app->configure('auth');
 
 /*
 |--------------------------------------------------------------------------
@@ -99,6 +100,9 @@ $app->register(Flipbox\LumenGenerator\LumenGeneratorServiceProvider::class);
 //$app->register(App\Providers\RepositoryServiceProvider::class);
 
 $app->bind(App\Repository\iCategoryRepo::class, App\Repository\CategoryRepo::class);
+// Passport Service registration
+$app->register(Laravel\Passport\PassportServiceProvider::class);
+$app->register(Dusterio\LumenPassport\PassportServiceProvider::class);
 
 /*
 |--------------------------------------------------------------------------

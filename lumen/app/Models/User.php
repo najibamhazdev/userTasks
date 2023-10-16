@@ -22,6 +22,11 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
         'name', 'email',
     ];
 
+
+    public function tasks() {
+        return $this->hasMany('App\Models\Task');
+    }
+
     /**
      * The attributes excluded from the model's JSON form.
      *
